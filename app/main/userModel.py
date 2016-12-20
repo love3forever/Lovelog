@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Date    : 2016-12-19 16:37:27
-# @Author  : eclipse (eclipse_sv@163.com)
+# @Date    : 2016-12-20 22:34:48
+# @Author  : Wangmengcn (eclipse_sv@163.com)
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
-
-import sys
-sys.path.append("..")
-
-from main import db, lg
+import bson
 from flask_login import UserMixin
+from extentions import db, lg
 
 
 @lg.user_loader
