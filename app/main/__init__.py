@@ -9,12 +9,12 @@ from flask import Flask
 from config import config
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
-
-
+from flask_bootstrap import Bootstrap
 
 
 db = MongoEngine()
 lg = LoginManager()
+bootstrap = Bootstrap()
 
 
 def createApp(name='default'):
@@ -22,6 +22,7 @@ def createApp(name='default'):
     app.config.from_object(config[name])
     lg.init_app(app)
     db.init_app(app)
+    bootstrap.init_app(app)
 
     from blueprints.index import index as indexBlueprint
     app.register_blueprint(indexBlueprint)

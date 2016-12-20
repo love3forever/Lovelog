@@ -4,5 +4,3 @@
 # @Author  : Wangmengcn (eclipse_sv@163.com)
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
-
-import os
