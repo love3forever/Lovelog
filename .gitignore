@@ -51,8 +51,6 @@ coverage.xml
 
 # Django stuff:
 *.log
-<<<<<<< HEAD
-=======
 local_settings.py
 
 # Flask stuff:
@@ -70,7 +68,7 @@ target/
 
 
 # ssl keys
-app/cert/
+app/main/cert/
 
 # IPython Notebook
 .ipynb_checkpoints

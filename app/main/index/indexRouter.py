@@ -7,8 +7,12 @@
 
 from . import index
 from flask import render_template
+from flask_login import current_user
 
 
 @index.route('/')
 def indexPage():
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        return render_template('base.html')
+    else:
+        return render_template('index.html')
