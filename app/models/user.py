@@ -5,11 +5,14 @@
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
 
-from . import db, lg
-from flask.ext.login import UserMixin
+import sys
+sys.path.append("..")
+
+from main import db, lg
+from flask_login import UserMixin
 
 
-@lm.user_loader
+@lg.user_loader
 def load_user(uid):
     return User.query(bson.objectid.ObjectId(str(uid)))
 
