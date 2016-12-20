@@ -5,4 +5,13 @@
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
 
-import os
+from . import db
+
+
+class Message(db.Document):
+    """docstring for Message"""
+    fromUser = db.StringField(required=True, max_length=15)
+    toUser = db.StringField(required=True, max_length=15)
+
+    content = db.StringField(required=True, max_length=140)
+    date = db.DateTimeField()

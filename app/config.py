@@ -6,6 +6,7 @@
 # @Version : $Id$
 import os
 
+
 class appConfig(object):
     """this is a default config for app"""
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'can not guess'
@@ -25,7 +26,11 @@ class appConfig(object):
 
 class developConfig(appConfig):
     """a config for develop env"""
-    pass
+    MONGODB_SETTINGS = {
+        'db': 'logofLove',
+        'host': 'localhost',
+        'port': 27017
+    }
 
 
 class productConfig(appConfig):

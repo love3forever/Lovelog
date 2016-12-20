@@ -7,11 +7,19 @@
 import os
 from flask import Flask
 from config import config
+from flask_mongoengine import MongoEngine
+from flask.ext.login import LoginManager
+
+
+db = MongoEngine()
+lg = LoginManager()
 
 
 def createApp(name='default'):
     app = Flask(__name__)
     app.config.from_object(config[name])
+    lg.init_app(app)
+    db.init_app(app)
 
     return app
 
@@ -19,7 +27,7 @@ def createApp(name='default'):
 if __name__ == '__main__':
     running = createApp()
     currentPath = os.path.abspath('.')
-    sslContext = (currentPath + '/cert/ssl.cert',
+    sslContext = (currentPath + '/cert/ssl.crt',
                   currentPath + '/cert/ssl.key')
     running.run(debug=True, host='0.0.0.0',
                 ssl_context=sslContext, threaded=True)
