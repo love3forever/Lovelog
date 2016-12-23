@@ -38,6 +38,9 @@ def createApp(name='default'):
     from login import login as loginBlueprint
     app.register_blueprint(loginBlueprint)
 
+    from emails import userEmail as emailBlueprint
+    app.register_blueprint(emailBlueprint, url_prefix='/email')
+
     return app
 
 

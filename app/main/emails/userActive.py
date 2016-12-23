@@ -5,4 +5,17 @@
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
 
-import os
+from . import userEmail
+from flask import url_for, render_template
+from flask_login import current_user
+
+
+@userEmail.route('/active/<string:uid>', methods=['GET'])
+def active(uid):
+    if uid:
+        pass
+
+
+@userEmail.route('/sendemail', methods=['GET'])
+def sendEmail():
+    pass

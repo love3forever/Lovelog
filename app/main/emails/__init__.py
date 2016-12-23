@@ -5,4 +5,7 @@
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
 
-import os
+from flask import Blueprint
+userEmail = Blueprint('userEmail',__name__)
+
+from . import userActive
