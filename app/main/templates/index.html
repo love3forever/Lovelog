@@ -2,7 +2,13 @@
 {{super()}}
 {% block content %}
 {{super()}}
-<div class="container-fluid">
-	<h1><a href="/login">not login yet</a></h1>
-</div>
+{% if current_user.is_authenticated %}
+    <p style="padding:3px 20px">Login in as {{current_user.username}}</p>
+{% else %}
+{% if current_user.is_active %}
+<li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+{% else %}
+<h1><a href="/login">not login yet</a></h1>
+{% endif %}
+{% endif %}
 {% endblock %}

@@ -24,8 +24,8 @@ class RegisterForm(Form):
     username = StringField('Username', validators=[Required(), Length(max=15)])
     email = StringField('Email', validators=[
                         Required(), Email(), Length(max=40)])
-    sex = SelectField('Sex', choices=['Boy', 'Girl'])
-    age = IntegerField('Age', validators=[Required(), Length(max=3)])
+    sex = SelectField('Sex', choices=[('male', 'Boy'), ('female', 'Girl')])
+    age = IntegerField('Age', validators=[Required()])
     school = StringField('Education', validators=[Required(), Length(max=40)])
     location = StringField('Location', validators=[Required(), Length(max=30)])
     password = PasswordField('Password', validators=[Required(), EqualTo(

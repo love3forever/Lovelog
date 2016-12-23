@@ -22,15 +22,18 @@ def userLogin():
         if next:
             return redirect(next)
     else:
-        form = LoginForm()
-        if form.validate_on_submit():
-            user = User.objects(username=form.username.data).first()
-            if user is not None and user.verify_password(form.password.data):
-                login_user(user, form.rememberme.data)
-                return redirect(url_for('index.indexPage'))
-                # return render_template('index.html', current_user=user)
-            flash('Invalid username or password.')
-        return render_template('login/login.html', form=form)
+        if current_user.is_active:
+            pass
+        else:
+            form = LoginForm()
+            if form.validate_on_submit():
+                user = User.objects(username=form.username.data).first()
+                if user is not None and user.verify_password(form.password.data):
+                    login_user(user, form.rememberme.data)
+                    return redirect(url_for('index.indexPage'))
+                    # return render_template('index.html', current_user=user)
+                flash('Invalid username or password.')
+            return render_template('login/login.html', form=form)
 
 
 @login.route('/registe', methods=['GET', 'POST'])
@@ -44,15 +47,18 @@ def userRegist():
         form = RegisterForm()
         if form.validate_on_submit():
             user = User()
-            user.username = form.username
-            user.email = form.email
-            user.password = generate_password_hash(form.password)
-            user.sex = form.sex
-            user.school = form.school
-            user.location = form.location
+            user.username = form.username.data
+            user.email = form.email.data
+            user.password = generate_password_hash(form.password.data)
+            user.sex = form.sex.data
+            user.age = form.age.data
+            user.school = form.school.data
+            user.location = form.location.data
             user.createdTime = date.today()
-            user.isactive = False
+            user.isactive = True
             user.isauthenticated = False
+
+            print(user.username)
             user.save()
 
             login_user(user)

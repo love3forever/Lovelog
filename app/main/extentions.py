@@ -15,6 +15,8 @@ from config import config
 
 db = MongoEngine()
 lg = LoginManager()
+lg.session_protection = 'strong'
+lg.login_view = 'login.userLogin'
 bootstrap = Bootstrap()
 
 
