@@ -7,7 +7,7 @@
 from datetime import date
 from . import login
 from flask import render_template, redirect, url_for, request, flash
-from flask_login import login_required, current_user, login_user
+from flask_login import login_required, current_user, login_user,logout_user
 from loginForm import LoginForm, RegisterForm
 from werkzeug.security import generate_password_hash
 import sys
@@ -23,7 +23,7 @@ def userLogin():
             return redirect(next)
     else:
         if current_user.is_active:
-            pass
+            return current_user.userid
         else:
             form = LoginForm()
             if form.validate_on_submit():
@@ -34,6 +34,14 @@ def userLogin():
                     # return render_template('index.html', current_user=user)
                 flash('Invalid username or password.')
             return render_template('login/login.html', form=form)
+
+
+@login.route('/logout',methods=['GET'])
+def userLogout():
+    if current_user:
+        logout_user()
+        return redirect(url_for('index.indexPage')) 
+
 
 
 @login.route('/registe', methods=['GET', 'POST'])

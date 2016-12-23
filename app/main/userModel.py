@@ -4,15 +4,12 @@
 # @Author  : Wangmengcn (eclipse_sv@163.com)
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
-import bson
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 from extentions import db, lg
 
 
-@lg.user_loader
-def load_user(uid):
-    return User.query(bson.objectid.ObjectId(str(uid)))
+
 
 
 class User(UserMixin, db.Document):

@@ -6,7 +6,8 @@
     <p style="padding:3px 20px">Login in as {{current_user.username}}</p>
 {% else %}
 {% if current_user.is_active %}
-<li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+<a href="{{ url_for('login.userLogin') }}">Log In</a>
+<a href="{{ url_for('login.userLogout') }}">Log In</a>
 {% else %}
 <h1><a href="/login">not login yet</a></h1>
 {% endif %}
