@@ -6,6 +6,7 @@
 # @Version : $Id$
 import bson
 from flask_login import UserMixin
+from werkzeug.security import check_password_hash
 from extentions import db, lg
 
 
@@ -16,19 +17,23 @@ def load_user(uid):
 
 class User(UserMixin, db.Document):
     username = db.StringField(required=True, max_length=15)
-    email = db.StringField(required=True, max_length=40)
+    email = db.EmailField(required=True, max_length=40)
     password = db.StringField(required=True, max_length=15)
     sex = db.StringField(required=True, max_length=10)
+    age = db.IntField(required=True, max_length=3)
     school = db.StringField(max_length=30)
     location = db.StringField(max_length=30)
+    createdTime = db.DateTimeField(required=True)
+    isactive = db.BooleanField(required=True)
+    isauthenticated = db.BooleanField(required=True)
 
     @property
     def is_active(self):
-        return True
+        return self.isactive
 
     @property
     def is_authenticated(self):
-        return True
+        return self.isauthenticated
 
     @property
     def is_anonymous(self):
@@ -45,9 +50,7 @@ class User(UserMixin, db.Document):
             return None
 
     def verify_password(self, pswd):
-        if self.password == pswd:
-            return True
-        return False
+        return check_password_hash(self.password, pswd)
 
 if __name__ == '__main__':
     testUser = User()

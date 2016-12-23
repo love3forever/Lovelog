@@ -6,7 +6,7 @@
 # @Version : $Id$
 
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
 from wtforms.validators import Email, Required, Length, EqualTo
 
 
@@ -24,6 +24,10 @@ class RegisterForm(Form):
     username = StringField('Username', validators=[Required(), Length(max=15)])
     email = StringField('Email', validators=[
                         Required(), Email(), Length(max=40)])
+    sex = SelectField('Sex', choices=['Boy', 'Girl'])
+    age = IntegerField('Age', validators=[Required(), Length(max=3)])
+    school = StringField('Education', validators=[Required(), Length(max=40)])
+    location = StringField('Location', validators=[Required(), Length(max=30)])
     password = PasswordField('Password', validators=[Required(), EqualTo(
         'repeatpsw', 'Password should be the same'), Length(max=15, min=6)])
     repeatpsw = PasswordField('Confirm Password', validators=[Required()])
