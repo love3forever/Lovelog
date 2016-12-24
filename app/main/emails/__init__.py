@@ -6,6 +6,7 @@
 # @Version : $Id$
 
 from flask import Blueprint
-userEmail = Blueprint('userEmail',__name__)
+userEmail = Blueprint('userEmail', __name__)
+
 
 from . import userActive

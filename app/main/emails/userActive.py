@@ -6,8 +6,9 @@
 # @Version : $Id$
 
 from . import userEmail
-from flask import url_for, render_template
+from flask import url_for, render_template, redirect
 from flask_login import current_user
+from smtpMail import sendMail
 
 
 @userEmail.route('/active/<string:uid>', methods=['GET'])
@@ -18,4 +19,8 @@ def active(uid):
 
 @userEmail.route('/sendemail', methods=['GET'])
 def sendEmail():
-    pass
+    if current_user:
+        uid = current_user.userid
+        email = current_user.email
+        sendMail(uid, email)
+        return redirect(url_for('index.indexPage'))
