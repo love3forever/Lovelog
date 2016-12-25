@@ -9,9 +9,6 @@ from werkzeug.security import check_password_hash
 from extentions import db, lg
 
 
-
-
-
 class User(UserMixin, db.Document):
     username = db.StringField(required=True, max_length=15)
     email = db.StringField(required=True, max_length=40)
@@ -55,6 +52,21 @@ class User(UserMixin, db.Document):
 
     def verify_password(self, pswd):
         return check_password_hash(self.password, pswd)
+
+
+class Pair(db.Document):
+    """docstring for Pair"""
+    boy = db.ReferenceField(User)
+    girl = db.ReferenceField(User)
+
+    @staticmethod
+    def query(uid):
+        user = User.query(uid)
+        if user.sex == 'male':
+            return Pair.objects(boy=user)
+        else:
+            return Pair.objects(girl=user)
+
 
 if __name__ == '__main__':
     testUser = User()

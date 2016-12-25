@@ -8,11 +8,23 @@
 from . import index
 from flask import render_template
 from flask_login import current_user
+import bson
+from indexForms import InviteForm
+import sys
+sys.path.extend('..')
+from userModel import Pair
 
 
-@index.route('/')
+@index.route('/',methods=['GET','POST'])
 def indexPage():
     # if current_user.is_authenticated:
     #     return render_template('base.html')
     # else:
+    if current_user.is_authenticated:
+        pair = Pair.query(bson.objectid.ObjectId(str(current_user.userid)))
+        if not pair:
+            form = InviteForm()
+            if form.validate_on_submit():
+                pass
+            return render_template('index.html', form=form)
     return render_template('index.html')
