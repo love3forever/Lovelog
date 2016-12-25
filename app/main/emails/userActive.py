@@ -4,7 +4,10 @@
 # @Author  : Wangmengcn (eclipse_sv@163.com)
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
-
+import bson
+import sys
+sys.path.extend('..')
+from userModel import User
 from . import userEmail
 from flask import url_for, render_template, redirect
 from flask_login import current_user
@@ -14,7 +17,11 @@ from smtpMail import sendMail
 @userEmail.route('/active/<string:uid>', methods=['GET'])
 def active(uid):
     if uid:
-        pass
+        user = User.query(bson.objectid.ObjectId(str(uid)))
+        if not user or user.is_authenticated:
+            return redirect(url_for('index.indexPage'))
+        user.update(isauthenticated=True)
+        return redirect(url_for('index.indexPage'))
 
 
 @userEmail.route('/sendemail', methods=['GET'])

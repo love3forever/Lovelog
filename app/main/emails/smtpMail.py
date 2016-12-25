@@ -14,8 +14,8 @@ from email.header import Header
 HOST = 'smtp.163.com'
 PORT = 465
 
-MAIL_USER = 'xx@163.com'
-MAIL_PASSWD = 'xxx'
+MAIL_USER = 'xxxx@163.com'
+MAIL_PASSWD = 'xxx@123'
 
 
 def asyncMail(f):
@@ -47,4 +47,4 @@ def sendMail(uid, mailAddr):
 
 
 if __name__ == '__main__':
-    sendMail('123456', 'xxx@qq.com')
+    sendMail('123456', MAIL_USER)
