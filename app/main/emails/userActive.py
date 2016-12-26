@@ -8,10 +8,10 @@ import bson
 import sys
 sys.path.extend('..')
 from userModel import User
+from smtpMail import sendMail
 from . import userEmail
 from flask import url_for, render_template, redirect
 from flask_login import current_user
-from smtpMail import sendMail
 
 
 @userEmail.route('/active/<string:uid>', methods=['GET'])

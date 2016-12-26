@@ -31,4 +31,6 @@ class RegisterForm(Form):
     password = PasswordField('Password', validators=[Required(), EqualTo(
         'repeatpsw', 'Password should be the same'), Length(max=15, min=6)])
     repeatpsw = PasswordField('Confirm Password', validators=[Required()])
+
+    inviteCode = StringField('Invite Code')
     submit = SubmitField('Confirm')

@@ -13,9 +13,10 @@ from indexForms import InviteForm
 import sys
 sys.path.extend('..')
 from userModel import Pair
+from smtpMail import sendInvite
 
 
-@index.route('/',methods=['GET','POST'])
+@index.route('/', methods=['GET', 'POST'])
 def indexPage():
     # if current_user.is_authenticated:
     #     return render_template('base.html')
@@ -25,6 +26,10 @@ def indexPage():
         if not pair:
             form = InviteForm()
             if form.validate_on_submit():
-                pass
+                mailAddr = form.email.data
+                uid = current_user.userid
+                print(uid)
+                sendInvite(uid, mailAddr)
+                return 'Invite mail sent already'
             return render_template('index.html', form=form)
     return render_template('index.html')

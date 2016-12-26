@@ -72,5 +72,37 @@ def userRegist():
         return render_template('login/registe.html', form=form)
 
 
+@login.route('/registe/<string:code>', methods=['GET', 'POST'])
+def userRegistWithCode(code):
+    if current_user.is_authenticated:
+        flash('Please logout before registe a new account')
+        next = request.args.get('next')
+        if next:
+            return redirect(next)
+        return redirect(url_for('index.indexPage'))
+    else:
+        form = RegisterForm()
+        form.inviteCode.data = code
+        if form.validate_on_submit():
+            user = User()
+            user.username = form.username.data
+            user.email = form.email.data
+            user.password = generate_password_hash(form.password.data)
+            user.sex = form.sex.data
+            user.age = form.age.data
+            user.school = form.school.data
+            user.location = form.location.data
+            user.createdTime = date.today()
+            user.isactive = True
+            user.isauthenticated = False
+
+            print(user.username)
+            user.save()
+
+            login_user(user)
+            return redirect(url_for('index.indexPage'))
+        return render_template('login/registe.html', form=form)
+
+
 if __name__ == '__main__':
     print(User)
