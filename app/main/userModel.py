@@ -59,6 +59,10 @@ class Pair(db.Document):
     boy = db.ReferenceField(User)
     girl = db.ReferenceField(User)
 
+    @property
+    def uid(self):
+        return str(self.id)
+
     @staticmethod
     def query(uid):
         user = User.query(uid)

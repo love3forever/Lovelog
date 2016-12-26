@@ -29,6 +29,5 @@ def sendEmail():
     if current_user:
         uid = current_user.userid
         email = current_user.email
-        if sendMail(uid, email):
-            return 'Mail has been sent already'
-        return 'Someting wrong happened'
+        sendMail(uid, email)
+        return 'Mail has been sent already'
