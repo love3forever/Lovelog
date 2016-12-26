@@ -5,13 +5,14 @@
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
 import bson
+from . import userEmail
+from flask import url_for, render_template, redirect
+from flask_login import current_user
 import sys
 sys.path.extend('..')
 from userModel import User
 from smtpMail import sendMail
-from . import userEmail
-from flask import url_for, render_template, redirect
-from flask_login import current_user
+
 
 
 @userEmail.route('/active/<string:uid>', methods=['GET'])
@@ -29,5 +30,6 @@ def sendEmail():
     if current_user:
         uid = current_user.userid
         email = current_user.email
-        sendMail(uid, email)
-        return redirect(url_for('index.indexPage'))
+        if sendMail(uid, email):
+            return 'Mail has been sent already'
+        return 'Someting wrong happened'
