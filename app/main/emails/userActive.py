@@ -14,7 +14,6 @@ from userModel import User
 from smtpMail import sendMail
 
 
-
 @userEmail.route('/active/<string:uid>', methods=['GET'])
 def active(uid):
     if uid:

@@ -14,13 +14,14 @@ from email.header import Header
 HOST = 'smtp.163.com'
 PORT = 465
 
-MAIL_USER = '****@163.com'
-MAIL_PASSWD = '****'
+MAIL_USER = 'wm_gaming@163.com'
+MAIL_PASSWD = 'qwer1234'
 
 
 def asyncMail(f):
     def wrapper(*args, **kwargs):
         thr = Thread(target=f, args=args, kwargs=kwargs)
+        thr.daemon = True
         thr.start()
     return wrapper
 
@@ -30,7 +31,7 @@ def sendMail(uid, mailAddr):
     try:
         link = 'https://localhost:5000/email/active/' + uid
         title = 'Active Your Account by Click this link'
-        content = '<p>{}</p><br/><p><a href="{}">{}</a></p>'.format(
+        content = '<p>{}</p><br/><p><a href="{}">点击这里完成用户注册：{}</a></p>'.format(
             title, link, link)
         msg = MIMEText(content, 'html', 'utf-8')
         msg['From'] = '<{}>'.format(MAIL_USER)
@@ -54,7 +55,7 @@ def sendInvite(uid, mailAddr):
     if uid and mailAddr:
         link = 'https://localhost:5000/registe/' + uid
         title = 'Rigiste an account with this invitation'
-        content = '<p>{}</p><br/><p><a href="{}">{}</a></p>'.format(
+        content = '<p>{}</p><br/><p><a href="{}">点击这里完成用户注册：{}</a></p>'.format(
             title, link, link)
         print(content)
         try:
@@ -73,7 +74,7 @@ def sendInvite(uid, mailAddr):
 
 
 if __name__ == '__main__':
-    sendMail('123456', MAIL_USER)
+    if sendMail('123456', 'eclipse_sv@163.com'):
+        for i in xrange(100):
+            print i
     sendInvite('invite',MAIL_USER)
-    for i in xrange(100):
-        print i
