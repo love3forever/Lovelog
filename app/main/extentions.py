@@ -8,6 +8,7 @@ import bson
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_socketio import SocketIO
 import os
 from flask import Flask
 from config import config
@@ -18,6 +19,7 @@ lg = LoginManager()
 lg.session_protection = 'strong'
 lg.login_view = 'login.userLogin'
 bootstrap = Bootstrap()
+socketio = SocketIO()
 
 
 def createApp(name='default'):
@@ -26,7 +28,8 @@ def createApp(name='default'):
     lg.init_app(app)
     db.init_app(app)
     bootstrap.init_app(app)
-
+    socketio = SocketIO(app)
+    print(type(socketio))
     from userModel import User
     @lg.user_loader
     def load_user(uid):
@@ -40,6 +43,10 @@ def createApp(name='default'):
 
     from emails import userEmail as emailBlueprint
     app.register_blueprint(emailBlueprint, url_prefix='/email')
+
+
+    from messages import msg as msgBlueprint
+    app.register_blueprint(msgBlueprint,url_prefix='/msg')
 
     return app
 
