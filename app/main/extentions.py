@@ -13,23 +13,21 @@ import os
 from flask import Flask
 from config import config
 
-
+app = Flask(__name__)
 db = MongoEngine()
 lg = LoginManager()
 lg.session_protection = 'strong'
 lg.login_view = 'login.userLogin'
 bootstrap = Bootstrap()
-socketio = SocketIO()
+socketio = SocketIO(app)
 
 
 def createApp(name='default'):
-    app = Flask(__name__)
+
     app.config.from_object(config[name])
     lg.init_app(app)
     db.init_app(app)
     bootstrap.init_app(app)
-    socketio = SocketIO(app)
-    print(type(socketio))
     from userModel import User
     @lg.user_loader
     def load_user(uid):

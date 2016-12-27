@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {{super()}}
+{% block head %}
+	{{super()}}
+    <!-- <script src="{{ url_for('static', filename='./js/socket.io-1.4.5.js') }}"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+{% endblock %}
 {% block content %}
 {{super()}}
 {% if current_user.is_authenticated %}
@@ -12,17 +18,16 @@
     {% if another %}
     	<p><a href="">{{another.username}}</a></p>
     {% endif %}
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script type="text/javascript">
-		var chat = io.connect('https://localhost:5000/5860ba201d41c83d61e854b6');
-  
-		chat.on('connect', function () {
-			chat.emit('hi!');
-		});
+    	var chat = io.connect('https://localhost:5000/5860ba201d41c83d61e854b6');
 
-		chat.on('liaoxian',function(){
-			chat.emit('hhhhh')
-		})
+    	chat.on('connect', function (data) {
+    		alert('connected!')
+    		chat.on('liaoxian',function(data){
+    			chat.emit('hhhhh');
+    			alert(data);
+    		})
+    	});
     </script>
 {% else %}
 {% if current_user.is_active %}

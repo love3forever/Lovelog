@@ -7,15 +7,20 @@
 
 from flask_socketio import Namespace, emit
 import sys
-sys.path.append('..')
-from extentions import socketio
 
 
 class MessageRoom(Namespace):
     """docstring for MessageRoom"""
 
-    def on_connect(self,data):
-        print(data)
+    def __new__(cls, *args, **kw):
+        if not hasattr(cls, '_instance'):
+            orig = super(MessageRoom, cls)
+            cls._instance = orig.__new__(cls, *args, **kw)
+        return cls._instance
+
+    def on_connect(self):
+        print("connection from client")
+        self.emit('liaoxian', "msg")
 
     def on_leave(self):
         print('client leave')
@@ -23,10 +28,6 @@ class MessageRoom(Namespace):
     def on_send(self, data):
         emit('response', data)
 
-    def on_liaoxian(self,data):
-    	print(data)
-
-
-
-if __name__ == '__main__':
-	socketio.on_namespace(MyCustomNamespace('/test'))
+    def on_liaoxian(self, data):
+        print(data)
+        emit(data)

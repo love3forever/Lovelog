@@ -22,10 +22,16 @@ def index(username):
         user = User.objects(username=username).first()
         pair = Pair.query(user.userid).first()
         uid = pair.uid
-        # print(type(socketio))
         try:
-            socketio.on_namespace(MessageRoom('/{}'.format(uid)))
-            print('chatroom:{} has been created'.format(uid))
+            if not socketio.server:
+                return render_template('message/msgIndex.html')
+            if socketio.server.namespace_handlers.has_key('/{}'.format(uid)):
+                print('room has created')
+            else:
+                socketio.on_namespace(MessageRoom('/{}'.format(uid)))
+                print('new room created')
             return render_template('message/msgIndex.html')
         except Exception as e:
-            return str(e)
+            raise e
+
+
