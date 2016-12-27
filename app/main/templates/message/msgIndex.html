@@ -20,13 +20,9 @@
     {% endif %}
     <script type="text/javascript">
     	var chat = io.connect('https://localhost:5000/5860ba201d41c83d61e854b6');
-
-    	chat.on('connect', function (data) {
-    		alert('connected!')
-    		chat.on('liaoxian',function(data){
-    			chat.emit('hhhhh');
-    			alert(data);
-    		})
+    	chat.on('connect', function () {
+            chat.emit('liaoxian', {msg: 'I\'m connected!'},namespace='/5860ba201d41c83d61e854b6');
+    		alert('connected!');
     	});
     </script>
 {% else %}

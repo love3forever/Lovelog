@@ -32,6 +32,4 @@ def index(username):
                 print('new room created')
             return render_template('message/msgIndex.html')
         except Exception as e:
-            raise e
-
-
+            print(str(e))

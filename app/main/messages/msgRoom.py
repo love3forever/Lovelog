@@ -12,11 +12,11 @@ import sys
 class MessageRoom(Namespace):
     """docstring for MessageRoom"""
 
-    def __new__(cls, *args, **kw):
-        if not hasattr(cls, '_instance'):
-            orig = super(MessageRoom, cls)
-            cls._instance = orig.__new__(cls, *args, **kw)
-        return cls._instance
+    # def __new__(cls, *args, **kw):
+    #     if not hasattr(cls, '_instance'):
+    #         orig = super(MessageRoom, cls)
+    #         cls._instance = orig.__new__(cls, *args, **kw)
+    #     return cls._instance
 
     def on_connect(self):
         print("connection from client")
@@ -30,4 +30,3 @@ class MessageRoom(Namespace):
 
     def on_liaoxian(self, data):
         print(data)
-        emit(data)
