@@ -31,6 +31,7 @@ def index(username):
             # else:
             #     socketio.on_namespace(MessageRoom('/{}'.format(uid)))
             #     print('new room created')
-            return render_template('message/msgIndex.html', roomid=uid)
+            return render_template('message/chatroom.html', roomid=uid)
         except Exception as e:
             print(str(e))
+            return 'somethin wrong'
