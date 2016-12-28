@@ -7,30 +7,13 @@
 from . import msg
 from flask import render_template, url_for, redirect, flash
 from flask_login import login_required, current_user
-from msgRoom import MessageRoom
+# from msgRoom import MessageRoom
 
 import sys
 sys.path.append('..')
-from extentions import socketio
+# from extentions import socketio
 from userModel import User, Pair
 
-
-
-
-
-def ack():
-    print('data sent')
-
-
-@socketio.on('connect')
-def sendConnection():
-    print('client connected!')
-    emit('liaoxian',data='hhh',callback=ack)
-
-@socketio.on('liaoxian')
-def sendLiaoxian(data):
-    print('send data:{}'.format(data))
-    send(data)
 
 @login_required
 @msg.route('/<string:username>')
@@ -39,16 +22,15 @@ def index(username):
         user = User.objects(username=username).first()
         pair = Pair.query(user.userid).first()
         uid = pair.uid
+        print(uid)
         try:
-            if not socketio.server:
-                return render_template('message/msgIndex.html')
-            if socketio.server.namespace_handlers.has_key('/{}'.format(uid)):
-                print('room has created')
-            else:
-                socketio.on_namespace(MessageRoom('/{}'.format(uid)))
-                print('new room created')
-            return render_template('message/msgIndex.html')
+            # if not socketio.server:
+            #     return render_template('message/msgIndex.html')
+            # if socketio.server.namespace_handlers.has_key('/{}'.format(uid)):
+            #     print('room has created')
+            # else:
+            #     socketio.on_namespace(MessageRoom('/{}'.format(uid)))
+            #     print('new room created')
+            return render_template('message/msgIndex.html', roomid=uid)
         except Exception as e:
             print(str(e))
-
-

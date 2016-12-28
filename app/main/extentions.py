@@ -8,7 +8,6 @@ import bson
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
-from flask_socketio import SocketIO,emit,send
 import os
 from flask import Flask
 from config import config
@@ -19,7 +18,6 @@ lg = LoginManager()
 lg.session_protection = 'strong'
 lg.login_view = 'login.userLogin'
 bootstrap = Bootstrap()
-socketio = SocketIO(app)
 
 
 def createApp(name='default'):
@@ -28,6 +26,7 @@ def createApp(name='default'):
     lg.init_app(app)
     db.init_app(app)
     bootstrap.init_app(app)
+
     from userModel import User
     @lg.user_loader
     def load_user(uid):
@@ -53,7 +52,5 @@ if __name__ == '__main__':
     currentPath = os.path.abspath('.')
     sslContext = (currentPath + '/cert/ssl.crt',
                   currentPath + '/cert/ssl.key')
-    socketio.run(running, debug=True, host='0.0.0.0',
-                 ssl_context=sslContext, threaded=True)
-    # running.run(debug=True, host='0.0.0.0',
-    #             ssl_context=sslContext, threaded=True)
+    running.run(debug=True, host='0.0.0.0',
+                ssl_context=None, threaded=True)

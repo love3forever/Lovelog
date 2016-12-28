@@ -6,7 +6,6 @@
 # @Version : $Id$
 
 from flask_socketio import Namespace, emit
-import sys
 
 
 class MessageRoom(Namespace):
@@ -20,7 +19,7 @@ class MessageRoom(Namespace):
 
     def on_connect(self):
         print("connection from client")
-        self.emit('liaoxian', "msg")
+        # self.emit('liaoxian', "msg")
 
     def on_leave(self):
         print('client leave')
