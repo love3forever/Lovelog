@@ -18,7 +18,7 @@
         {% endif %}
         {% if roomid %}
             <div class="page-header">
-                    <h1>科研开发室 <small>工作频道</small></h1>
+                    <h1>LoveLog <small>instanceMsg</small></h1>
                 </div>
                 <div class="col-md-offset-1 col-md-10" style="padding:0px;">
                     <div class="container-fluid" id="chatpanel" data-spy="affix" data-offset-top="60" data-offset-bottom="20">
@@ -29,12 +29,12 @@
 
                 <div class="col-md-offset-1 col-md-10" id="message-panel" style="padding:0px">
                     <div class="container-fluid" style="padding:0px;margin:0px;">
-                        <form onsubmit="return sendMsg();">
+                        <form>
                         <div class="input-group">
-                            <span id="username" th:text="${username}" class="input-group-addon"></span>
+                            <span id="username" class="input-group-addon"></span>
                             <input type="text" class="form-control" id="send-message" placeholder="输入消息"></input>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" onclick="sendMsg()">发送</button>
+                                <button id='sendButton' class="btn btn-default" type="button">发送</button>
                             </span>
                             </div>
                         </form>
@@ -55,22 +55,39 @@
 
 {% block footer %}
 <script type="text/javascript">
+    var room ;
+    var sendButton = $('#sendButton');
+    var sendBox = $('#send-message');
+    var msgPanel = $('#chatpanel');
+    var times = 0
 
+    sendButton.enable = false;
+    // loading page and init socketio
     $(document).ready(function(){
-            var chat = io.connect('ws://localhost:4000');
-            var recv ;
-            chat.on('connect', function(data) {
-                chat.emit('message',{msg: '{{roomid}}'},function(){
-                    var room = io.connect('ws://localhost:4000/{{roomid}}');
-                    getMsg(room);
-                })});
-            });
+        var chat = io.connect('ws://localhost:4000');
 
+        chat.on('connect', function(data) {
+            chat.emit('message',{msg: '{{roomid}}'},function(){
+                room = io.connect('ws://localhost:4000/{{roomid}}');
+                sendButton.enable = true;
+                // init once other wise msg will come many times
+                room.on('liaoxian',function(data){
+                    times++;
+                    alert(data)
+                    console.log(times)
+                    msgPanel.append('<p>'+data+'</p><br>')
+                });
+                    //getMsg(room);
+                });
+        });
+    });
 
-            function getMsg(socket){
-                socket.on('liaoxian',function(data){
-                    alert(data);
-                })
-            }
+    sendButton.click(function(){
+        if(room!=null){
+            times ++;
+            console.log(times);
+            room.emit('recv',{msg:sendBox.val()});
+        }
+    });
 </script>
 {% endblock %}

@@ -12,17 +12,18 @@ from flask import Flask
 class ChatRoom(Namespace):
     def on_connect(self):
         print('client connected to room')
-        emit('liaoxian', 'hhhh')
+        # emit('liaoxian', 'hhhh')
 
     def on_disconnect(self):
         print('client disconnected from room')
 
-    def on_sliaoxian(self, msg):
+    def on_liaoxian(self, msg):
         print('running liaoxian')
+        print(msg)
         self.send(msg)
 
     def on_recv(self, data):
-        emit('liaoxian', data)
+        self.emit('liaoxian', data['msg'])
 
 
 def createApp():
