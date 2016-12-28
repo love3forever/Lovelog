@@ -72,9 +72,6 @@
                 sendButton.enable = true;
                 // init once other wise msg will come many times
                 room.on('liaoxian',function(data){
-                    times++;
-                    alert(data)
-                    console.log(times)
                     msgPanel.append('<p>'+data+'</p><br>')
                 });
                     //getMsg(room);
@@ -84,9 +81,8 @@
 
     sendButton.click(function(){
         if(room!=null){
-            times ++;
-            console.log(times);
             room.emit('recv',{msg:sendBox.val()});
+            sendBox.val('');
         }
     });
 </script>
