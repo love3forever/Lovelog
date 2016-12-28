@@ -15,6 +15,23 @@ from extentions import socketio
 from userModel import User, Pair
 
 
+
+
+
+def ack():
+    print('data sent')
+
+
+@socketio.on('connect')
+def sendConnection():
+    print('client connected!')
+    emit('liaoxian',data='hhh',callback=ack)
+
+@socketio.on('liaoxian')
+def sendLiaoxian(data):
+    print('send data:{}'.format(data))
+    send(data)
+
 @login_required
 @msg.route('/<string:username>')
 def index(username):
@@ -33,3 +50,5 @@ def index(username):
             return render_template('message/msgIndex.html')
         except Exception as e:
             print(str(e))
+
+

@@ -8,7 +8,7 @@ import bson
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO,emit,send
 import os
 from flask import Flask
 from config import config
@@ -42,9 +42,8 @@ def createApp(name='default'):
     from emails import userEmail as emailBlueprint
     app.register_blueprint(emailBlueprint, url_prefix='/email')
 
-
     from messages import msg as msgBlueprint
-    app.register_blueprint(msgBlueprint,url_prefix='/msg')
+    app.register_blueprint(msgBlueprint, url_prefix='/msg')
 
     return app
 
@@ -54,5 +53,7 @@ if __name__ == '__main__':
     currentPath = os.path.abspath('.')
     sslContext = (currentPath + '/cert/ssl.crt',
                   currentPath + '/cert/ssl.key')
-    running.run(debug=True, host='0.0.0.0',
-                ssl_context=sslContext, threaded=True)
+    socketio.run(running, debug=True, host='0.0.0.0',
+                 ssl_context=sslContext, threaded=True)
+    # running.run(debug=True, host='0.0.0.0',
+    #             ssl_context=sslContext, threaded=True)
