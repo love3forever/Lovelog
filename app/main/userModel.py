@@ -72,6 +72,14 @@ class Pair(db.Document):
             return Pair.objects(girl=user)
 
 
+class ImagePost(db.Document):
+    """docstring for ImagePost"""
+    poster = db.ReferenceField(User)
+    createdTime = db.DateTimeField(required=True)
+    img = db.FileField(required=True)
+    des = db.StringField()
+
+
 if __name__ == '__main__':
     testUser = User()
     testUser.username = 'wangmeng'

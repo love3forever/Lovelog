@@ -7,3 +7,5 @@
 from flask import Blueprint
 
 dairy = Blueprint('dairy',__name__)
+
+from . import dairyView

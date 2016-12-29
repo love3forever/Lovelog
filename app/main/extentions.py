@@ -44,6 +44,9 @@ def createApp(name='default'):
     from messages import msg as msgBlueprint
     app.register_blueprint(msgBlueprint, url_prefix='/msg')
 
+    from dairy import dairy as dairyBlueprint
+    app.register_blueprint(dairyBlueprint, url_prefix='/dairy')
+
     return app
 
 
