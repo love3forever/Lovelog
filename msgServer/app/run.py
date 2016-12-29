@@ -5,7 +5,7 @@
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
 
-from flask_socketio import SocketIO, Namespace, emit, send
+from flask_socketio import SocketIO, Namespace
 from flask import Flask
 
 
@@ -50,4 +50,5 @@ def getMsg(sss):
 def getConn():
     print('client connected')
 
-socketio.run(app, debug=True, host='0.0.0.0', port=4000)
+if __name__ == '__main__':
+    socketio.run(app, debug=True, host='0.0.0.0', port=4000)
