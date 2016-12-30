@@ -36,6 +36,7 @@ def userLogin():
             return render_template('login/login.html', form=form)
 
 
+@login_required
 @login.route('/logout', methods=['GET'])
 def userLogout():
     if current_user:

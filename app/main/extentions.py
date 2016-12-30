@@ -23,9 +23,13 @@ bootstrap = Bootstrap()
 def createApp(name='default'):
 
     app.config.from_object(config[name])
-    lg.init_app(app)
-    db.init_app(app)
-    bootstrap.init_app(app)
+    try:
+        lg.init_app(app)
+        db.init_app(app)
+        bootstrap.init_app(app)
+    except Exception as e:
+        print(str(e))
+    
 
     from userModel import User
     @lg.user_loader
