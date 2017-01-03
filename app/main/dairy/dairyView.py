@@ -13,24 +13,41 @@ from . import dairy
 
 import sys
 sys.path.append('..')
-from userModel import User, ImagePost
+from userModel import User, ImagePost, VideoPost
 
-from dairyForm import ImagePostForm
+from dairyForm import ImagePostForm, VideoForm
+
+
+def uploadFile(form=None, dbModel=None):
+    form = form
+    if form.validate_on_submit():
+        file = request.files['data']
+        uid = current_user.userid
+        user = User.query(bson.objectid.ObjectId(str(uid)))
+        post = dbModel()
+        post.poster = user
+        post.createdTime = datetime.today()
+        post.data = form.data.data
+        post.des = form.desc.data
+        post.filename = file.filename
+        print(form.data.name)
+        post.save()
 
 
 @login_required
 @dairy.route('/imagedairy', methods=['GET', 'POST'])
 def imagePost():
     form = ImagePostForm()
-    if form.validate_on_submit():
-        img = form.image.data
-        uid = current_user.userid
-        user = User.query(bson.objectid.ObjectId(str(uid)))
-        post = ImagePost()
-        post.poster = user
-        post.createdTime = datetime.today()
-        post.img = img
-        post.des = form.desc.data
+    uploadFile(form, ImagePost)
+    return render_template('dairy/imagedairy.html', form=form)
 
-        post.save()
+
+@login_required
+@dairy.route('/videodairy', methods=['GET', 'POST'])
+def videoPost():
+    '''
+    this route is used to post video dairy to server
+    '''
+    form = VideoForm()
+    uploadFile(form, VideoPost)
     return render_template('dairy/imagedairy.html', form=form)

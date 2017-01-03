@@ -13,7 +13,15 @@ from wtforms import validators
 
 class ImagePostForm(Form):
     """docstring for InviteForm"""
-    image = FileField('Image file')
-    desc = TextAreaField('Image desciption')
+    data = FileField('Image file')
+    desc = TextAreaField('Image description')
+
+    submit = SubmitField('Upload')
+
+
+class VideoForm(Form):
+    """docstring for VideoForm"""
+    data = FileField('Video file')
+    desc = TextAreaField('Video description')
 
     submit = SubmitField('Upload')

@@ -72,12 +72,24 @@ class Pair(db.Document):
             return Pair.objects(girl=user)
 
 
-class ImagePost(db.Document):
-    """docstring for ImagePost"""
+class Posts(db.Document):
+    """docstring for Posts"""
     poster = db.ReferenceField(User)
     createdTime = db.DateTimeField(required=True)
-    img = db.FileField(required=True)
+    data = db.FileField(required=True)
     des = db.StringField()
+    filename = db.StringField(required=True)
+    meta = {'allow_inheritance': True}
+
+
+class ImagePost(Posts):
+    """docstring for ImagePost"""
+    pass
+
+
+class VideoPost(Posts):
+    """docstring for VideoPost"""
+    pass
 
 
 if __name__ == '__main__':
