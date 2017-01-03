@@ -76,15 +76,11 @@ def getFile(filename):
         uid = current_user.userid
         user = User.query(bson.objectid.ObjectId(str(uid)))
         post = Posts.objects(poster=user, filename=filename).first()
-        download(post)
-    abort(404)
-
-
-def download(post):
-    if post:
-        data = post.data
-        response = make_response(data.read())
-        response.headers[
-            "Content-Disposition"] = "attachment; filename={}".format(post.filename)
-        return response
-    abort(404)
+        if post:
+            data = post.data
+            response = make_response(data.read())
+            response.headers[
+                "Content-Disposition"] = "attachment; filename={}".format(post.filename)
+            return response
+    else:
+        abort(404)
