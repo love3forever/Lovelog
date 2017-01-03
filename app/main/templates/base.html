@@ -24,7 +24,7 @@
                 <li><a href="{{ url_for('index.indexPage') }}">Home</a></li>
                 {% if current_user.is_authenticated %}
                     {% if another %}
-                        <li><a href="{{url_for('msg.index',username=another.username)}}">Posts</a></li>
+                        <li><a href="{{url_for('dairy.getPosts',username=another.username)}}">Posts</a></li>
                     {% endif %}
                     <li><a href="{{url_for('index.indexPage')}}">User</a> </li>
                 {% endif %}
