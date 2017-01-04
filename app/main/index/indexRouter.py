@@ -5,6 +5,7 @@
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
 
+from datetime import datetime
 from . import index
 from flask import render_template
 from flask_login import current_user
@@ -12,7 +13,7 @@ import bson
 from indexForms import InviteForm
 import sys
 sys.path.extend('..')
-from userModel import Pair,User
+from userModel import Pair, User, SysInfo
 from smtpMail import sendInvite
 
 
@@ -22,7 +23,8 @@ def indexPage():
     #     return render_template('base.html')
     # else:
     if current_user.is_authenticated:
-        pair = Pair.query(bson.objectid.ObjectId(str(current_user.userid))).first()
+        pair = Pair.query(bson.objectid.ObjectId(
+            str(current_user.userid))).first()
         if not pair:
             form = InviteForm()
             if form.validate_on_submit():
@@ -38,5 +40,11 @@ def indexPage():
                 another = pair.girl
             else:
                 another = pair.boy
-            return render_template('index.html',another=another)
+            info = SysInfo()
+            info.desc = '{} has login in'.format(current_user.username)
+            info.awaredof = [another]
+            info.date = datetime.now()
+            info.isread = False
+            info.save()
+            return render_template('index.html', another=another)
     return render_template('index.html')

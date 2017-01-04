@@ -25,25 +25,3 @@
         {% endif %}
     {% endif %}
 {% endblock %}
-
-<!-- {% block footer %}
-<script type="text/javascript">
-
-    $(document).ready(function(){
-            var chat = io.connect('ws://localhost:4000');
-            var recv ;
-            chat.on('connect', function(data) {
-                chat.emit('message',{msg: '{{roomid}}'},function(){
-                    var room = io.connect('ws://localhost:4000/{{roomid}}');
-                    getMsg(room);
-                })});
-            });
-
-
-            function getMsg(socket){
-                socket.on('liaoxian',function(data){
-                    alert(data);
-                })
-            }
-</script>
-{% endblock %} -->
