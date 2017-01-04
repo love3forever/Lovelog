@@ -38,6 +38,7 @@
                     <ul class="dropdown-menu">
                         <p style="padding:3px 20px">Login in as {{current_user.username}}</p>
                         <li role="separator" class="divider"></li>
+                        <li><a href="{{ url_for('sysinfo.getSysinfoIndex') }}">Messages <span id="infobadge" class="badge">42</span></a></li>
                         <li><a href="{{ url_for('index.indexPage') }}">Your profile</a></li>
                         <li><a href="{{ url_for('index.indexPage') }}">Settings</a></li>
                         <li role="separator" class="divider"></li>
@@ -51,6 +52,8 @@
         </div>
     </div>
 </div>
+
+
 {% endblock navbar%}
 
 {% block content %}
@@ -65,3 +68,17 @@
 </div>
 {% endblock content%}
 
+{% block footer %}
+<script type="text/javascript">
+    var badge = $('#infobadge');
+    if (badge.length!=0) {
+        $.ajax({
+            url:"{{url_for('sysinfo.getInfoStatus')}}",
+            type:"get",
+            success:function(responseText){
+                badge.text(responseText['count']);
+            }
+        });
+    }
+</script>
+{% endblock %}

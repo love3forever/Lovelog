@@ -29,7 +29,6 @@ def createApp(name='default'):
         bootstrap.init_app(app)
     except Exception as e:
         print(str(e))
-    
 
     from userModel import User
     @lg.user_loader
@@ -50,6 +49,10 @@ def createApp(name='default'):
 
     from dairy import dairy as dairyBlueprint
     app.register_blueprint(dairyBlueprint, url_prefix='/dairy')
+
+
+    from sysinfo import sysinfo as sysinfoBlueprint
+    app.register_blueprint(sysinfoBlueprint,url_prefix='/sysinfo')
 
     return app
 

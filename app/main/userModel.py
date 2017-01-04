@@ -4,9 +4,14 @@
 # @Author  : Wangmengcn (eclipse_sv@163.com)
 # @Link    : https://eclipsesv.com
 # @Version : $Id$
+
+import bson
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 from extentions import db, lg
+
+
+# things about user
 
 
 class User(UserMixin, db.Document):
@@ -50,6 +55,11 @@ class User(UserMixin, db.Document):
         else:
             return None
 
+    @staticmethod
+    def getUserbyID(uid):
+        user = User.query(bson.objectid.ObjectId(str(uid)))
+        return user
+
     def verify_password(self, pswd):
         return check_password_hash(self.password, pswd)
 
@@ -71,6 +81,8 @@ class Pair(db.Document):
         else:
             return Pair.objects(girl=user)
 
+# things about posts
+
 
 class Posts(db.Document):
     """docstring for Posts"""
@@ -90,6 +102,15 @@ class ImagePost(Posts):
 class VideoPost(Posts):
     """docstring for VideoPost"""
     pass
+
+
+# things about message
+class SysInfo(db.Document):
+    """docstring for SysInfo"""
+    desc = db.StringField(required=True)
+    awaredof = db.ListField(db.ReferenceField(User))
+    date = db.DateTimeField(required=True)
+    isread = db.BooleanField(required=True)
 
 
 if __name__ == '__main__':
